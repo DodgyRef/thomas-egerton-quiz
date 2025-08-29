@@ -929,32 +929,33 @@ class NameRandomiser {
     }
     
     handleSyncUpdate(data) {
-        if (!this.isController) {
-            // This device is a viewer - sync with controller
-            // Only start spinning if there's actual spin data and we're not already spinning
-            // Also check if this is not the initial load to prevent auto-spin on page load
-            if (data.isSpinning && !this.isSpinning && (data.selectedName || data.selectedNumber) && !this.initialLoad) {
-                this.startSyncSpin(data);
-            } else if (!data.isSpinning && this.isSpinning) {
-                this.stopSyncSpin(data);
-            }
-            
-            // Sync mode
-            if (data.currentMode !== this.currentMode) {
-                this.currentMode = data.currentMode;
-                this.modeToggleCheckbox.checked = data.currentMode === 'raffle';
-                // Only call toggleMode if this device is the controller (admin)
-                if (this.isController) {
-                    this.toggleMode();
-                } else {
-                    // For viewers, just update the UI without showing input sections
-                    this.updateModeUI();
-                }
-            }
-            
-            // Mark that initial load is complete
-            this.initialLoad = false;
+        console.log('Sync update received:', data, 'isController:', this.isController, 'isSpinning:', this.isSpinning);
+        
+        // Only start spinning if there's actual spin data and we're not already spinning
+        // Also check if this is not the initial load to prevent auto-spin on page load
+        if (data.isSpinning && !this.isSpinning && (data.selectedName || data.selectedNumber) && !this.initialLoad) {
+            console.log('Starting sync spin');
+            this.startSyncSpin(data);
+        } else if (!data.isSpinning && this.isSpinning) {
+            console.log('Stopping sync spin');
+            this.stopSyncSpin(data);
         }
+        
+        // Sync mode
+        if (data.currentMode !== this.currentMode) {
+            this.currentMode = data.currentMode;
+            this.modeToggleCheckbox.checked = data.currentMode === 'raffle';
+            // Only call toggleMode if this device is the controller (admin)
+            if (this.isController) {
+                this.toggleMode();
+            } else {
+                // For viewers, just update the UI without showing input sections
+                this.updateModeUI();
+            }
+        }
+        
+        // Mark that initial load is complete
+        this.initialLoad = false;
     }
     
     startSyncSpin(data) {
@@ -1057,10 +1058,13 @@ class NameRandomiser {
             const set = window.firebaseSet;
             
             this.isController = true;
+            console.log('Claiming controller status');
             set(ref(database, 'controller'), {
                 currentController: true,
                 timestamp: Date.now()
             });
+        } else {
+            console.log('Firebase not available for claiming controller');
         }
     }
     
@@ -1086,6 +1090,8 @@ class NameRandomiser {
     
     // Override spin methods to sync with Firebase
     startSpin() {
+        console.log('startSpin called, isController:', this.isController, 'isSpinning:', this.isSpinning);
+        
         if (this.names.length < 2) {
             this.showMessage('Please add at least 2 names to spin!', 'error');
             return;
