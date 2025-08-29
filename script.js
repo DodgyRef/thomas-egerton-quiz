@@ -525,13 +525,15 @@ class NameRandomiser {
         
         if (this.currentMode === 'raffle') {
             this.quizSection.style.display = 'none';
-            this.raffleSection.style.display = 'block';
+            // Only show raffle section if admin is logged in
+            this.raffleSection.style.display = this.isAdminLoggedIn ? 'block' : 'none';
             this.mainTitle.textContent = 'Raffle Ticket Draw';
             this.mainSubtitle.textContent = 'Enter number ranges and draw a winning ticket!';
             this.resultTitle.textContent = '🎫 The winning ticket is:';
             this.wheel.classList.add('raffle-mode');
         } else {
-            this.quizSection.style.display = 'block';
+            // Only show quiz section if admin is logged in
+            this.quizSection.style.display = this.isAdminLoggedIn ? 'block' : 'none';
             this.raffleSection.style.display = 'none';
             this.mainTitle.textContent = 'Quiz Name Randomiser';
             this.mainSubtitle.textContent = 'Enter names and let the wheel decide!';
@@ -941,7 +943,13 @@ class NameRandomiser {
             if (data.currentMode !== this.currentMode) {
                 this.currentMode = data.currentMode;
                 this.modeToggleCheckbox.checked = data.currentMode === 'raffle';
-                this.toggleMode();
+                // Only call toggleMode if this device is the controller (admin)
+                if (this.isController) {
+                    this.toggleMode();
+                } else {
+                    // For viewers, just update the UI without showing input sections
+                    this.updateModeUI();
+                }
             }
             
             // Mark that initial load is complete
@@ -1015,6 +1023,21 @@ class NameRandomiser {
         // Play number audio for raffle
         if (data.currentMode === 'raffle' && data.selectedNumber) {
             this.playNumberAudio(data.selectedNumber.number);
+        }
+    }
+    
+    updateModeUI() {
+        // Update UI for viewers without showing input sections
+        if (this.currentMode === 'raffle') {
+            this.mainTitle.textContent = 'Raffle Ticket Draw';
+            this.mainSubtitle.textContent = 'Enter number ranges and draw a winning ticket!';
+            this.resultTitle.textContent = '🎫 The winning ticket is:';
+            this.wheel.classList.add('raffle-mode');
+        } else {
+            this.mainTitle.textContent = 'Quiz Name Randomiser';
+            this.mainSubtitle.textContent = 'Enter names and let the wheel decide!';
+            this.resultTitle.textContent = '🎉 The winner is:';
+            this.wheel.classList.remove('raffle-mode');
         }
     }
     
