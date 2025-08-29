@@ -47,7 +47,8 @@ class NameRandomiser {
         
         // Common elements
         this.spinAgainBtn = document.getElementById('spinAgainBtn'); // May be null if removed
-        this.resultSection = document.getElementById('resultSection');
+        this.wheelSection = document.getElementById('wheelSection');
+        this.winnerSection = document.getElementById('winnerSection');
         this.wheel = document.getElementById('wheel');
         this.currentName = document.getElementById('currentName');
         this.winnerName = document.getElementById('winnerName');
@@ -200,12 +201,13 @@ class NameRandomiser {
         this.updateSpinButton();
         
         // Show wheel section and hide result display initially
-        this.resultSection.style.display = 'block';
+        this.wheelSection.style.display = 'block';
+        this.winnerSection.style.display = 'none';
         if (this.resultDisplay) {
             this.resultDisplay.style.display = 'none';
             this.resultDisplay.style.animation = 'none';
         }
-        this.resultSection.scrollIntoView({ behavior: 'smooth' });
+        this.wheelSection.scrollIntoView({ behavior: 'smooth' });
         
         // Start the spinning animation
         this.animateSpin();
@@ -293,6 +295,7 @@ class NameRandomiser {
         setTimeout(() => {
             this.isSpinning = false;
             this.updateSpinButton();
+            this.winnerSection.style.display = 'block';
             if (this.resultDisplay) {
                 this.resultDisplay.style.display = 'block';
                 this.resultDisplay.style.animation = 'fadeInUp 1s ease-out both';
@@ -309,7 +312,8 @@ class NameRandomiser {
         this.stopCountdownAudio();
         
         // Hide result section
-        this.resultSection.style.display = 'none';
+        this.wheelSection.style.display = 'none';
+        this.winnerSection.style.display = 'none';
         
         // Reset wheel
         this.wheel.classList.remove('spinning');
@@ -515,7 +519,8 @@ class NameRandomiser {
         }
         
         // Hide result section when switching modes
-        this.resultSection.style.display = 'none';
+        this.wheelSection.style.display = 'none';
+        this.winnerSection.style.display = 'none';
     }
     
     // Raffle functionality
@@ -650,12 +655,13 @@ class NameRandomiser {
         this.updateRaffleSpinButton();
         
         // Show wheel section and hide result display initially
-        this.resultSection.style.display = 'block';
+        this.wheelSection.style.display = 'block';
+        this.winnerSection.style.display = 'none';
         if (this.resultDisplay) {
             this.resultDisplay.style.display = 'none';
             this.resultDisplay.style.animation = 'none';
         }
-        this.resultSection.scrollIntoView({ behavior: 'smooth' });
+        this.wheelSection.scrollIntoView({ behavior: 'smooth' });
         
         // Start the spinning animation
         this.animateRaffleSpin(this.availableNumbers);
@@ -750,6 +756,7 @@ class NameRandomiser {
         setTimeout(async () => {
             this.isSpinning = false;
             this.updateRaffleSpinButton();
+            this.winnerSection.style.display = 'block';
             if (this.resultDisplay) {
                 this.resultDisplay.style.display = 'block';
                 this.resultDisplay.style.animation = 'fadeInUp 1s ease-out both';
@@ -810,7 +817,7 @@ class NameRandomiser {
         if (this.modeToggle) this.modeToggle.style.display = 'block';
         
         // Show the wheel section
-        if (this.resultSection) this.resultSection.style.display = 'block';
+        if (this.wheelSection) this.wheelSection.style.display = 'block';
         
         // Remove view-only mode class
         document.body.classList.remove('view-only-mode');
@@ -823,7 +830,7 @@ class NameRandomiser {
         if (this.modeToggle) this.modeToggle.style.display = 'none';
         
         // Show the wheel section
-        if (this.resultSection) this.resultSection.style.display = 'block';
+        if (this.wheelSection) this.wheelSection.style.display = 'block';
         
         // Add view-only mode class
         document.body.classList.add('view-only-mode');
@@ -911,7 +918,8 @@ class NameRandomiser {
         this.selectedNumber = data.selectedNumber;
         
         // Show wheel and hide result
-        this.resultSection.style.display = 'block';
+        this.wheelSection.style.display = 'block';
+        this.winnerSection.style.display = 'none';
         if (this.resultDisplay) {
             this.resultDisplay.style.display = 'none';
             this.resultDisplay.style.animation = 'none';
@@ -952,6 +960,7 @@ class NameRandomiser {
         
         // Show result after delay
         setTimeout(async () => {
+            this.winnerSection.style.display = 'block';
             if (this.resultDisplay) {
                 this.resultDisplay.style.display = 'block';
                 this.resultDisplay.style.animation = 'fadeInUp 1s ease-out both';
@@ -1033,12 +1042,13 @@ class NameRandomiser {
         this.syncGameState();
         
         // Show wheel and hide result
-        this.resultSection.style.display = 'block';
+        this.wheelSection.style.display = 'block';
+        this.winnerSection.style.display = 'none';
         if (this.resultDisplay) {
             this.resultDisplay.style.display = 'none';
             this.resultDisplay.style.animation = 'none';
         }
-        this.resultSection.scrollIntoView({ behavior: 'smooth' });
+        this.wheelSection.scrollIntoView({ behavior: 'smooth' });
         
         // Start the spinning animation
         this.animateSpin();
@@ -1072,12 +1082,13 @@ class NameRandomiser {
         this.syncGameState();
         
         // Show wheel and hide result
-        this.resultSection.style.display = 'block';
+        this.wheelSection.style.display = 'block';
+        this.winnerSection.style.display = 'none';
         if (this.resultDisplay) {
             this.resultDisplay.style.display = 'none';
             this.resultDisplay.style.animation = 'none';
         }
-        this.resultSection.scrollIntoView({ behavior: 'smooth' });
+        this.wheelSection.scrollIntoView({ behavior: 'smooth' });
         
         // Start the spinning animation
         this.animateRaffleSpin(this.availableNumbers);
