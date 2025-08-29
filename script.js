@@ -26,6 +26,16 @@ class NameRandomiser {
         
         // Set initial view state (view-only by default)
         this.hideInputSections();
+        
+        // Hide winner section initially
+        if (this.winnerSection) {
+            this.winnerSection.style.display = 'none';
+        }
+        
+        // Ensure toggle is hidden initially
+        if (this.modeToggle) {
+            this.modeToggle.style.display = 'none';
+        }
     }
     
     initializeElements() {
@@ -56,6 +66,7 @@ class NameRandomiser {
         this.mainSubtitle = document.getElementById('mainSubtitle');
         this.resultTitle = document.getElementById('resultTitle');
         this.modeToggle = document.getElementById('modeToggle');
+        this.modeToggleCheckbox = document.getElementById('modeToggleCheckbox');
         this.quizSection = document.getElementById('quizSection');
         this.raffleSection = document.getElementById('raffleSection');
         
@@ -84,7 +95,7 @@ class NameRandomiser {
         this.spinRaffleBtn.addEventListener('click', () => this.startRaffleSpin());
         
         // Mode toggle
-        this.modeToggle.addEventListener('change', () => this.toggleMode());
+        this.modeToggleCheckbox.addEventListener('change', () => this.toggleMode());
         
         // Login events
         this.loginBtn.addEventListener('click', () => this.handleLogin());
@@ -200,9 +211,12 @@ class NameRandomiser {
         this.selectedName = this.names[Math.floor(Math.random() * this.names.length)];
         this.updateSpinButton();
         
-        // Show wheel section and hide result display initially
+        // Show wheel section and hide winner content initially
         this.wheelSection.style.display = 'block';
-        this.winnerSection.style.display = 'none';
+        if (this.winnerSection) {
+            this.winnerSection.style.display = 'block';
+            this.winnerSection.style.animation = 'none';
+        }
         if (this.resultDisplay) {
             this.resultDisplay.style.display = 'none';
             this.resultDisplay.style.animation = 'none';
@@ -291,17 +305,21 @@ class NameRandomiser {
         this.currentName.textContent = this.selectedName;
         this.winnerName.textContent = this.selectedName;
         
-        // Show result after a short delay
-        setTimeout(() => {
-            this.isSpinning = false;
-            this.updateSpinButton();
+        // Show result immediately after spin stops
+        this.isSpinning = false;
+        this.updateSpinButton();
+        
+        // Show winner section instantly
+        if (this.winnerSection) {
             this.winnerSection.style.display = 'block';
-            if (this.resultDisplay) {
-                this.resultDisplay.style.display = 'block';
-                this.resultDisplay.style.animation = 'fadeInUp 1s ease-out both';
-            }
-            this.showMessage(`🎉 "${this.selectedName}" is the winner!`, 'success');
-        }, 500);
+            this.winnerSection.style.animation = 'none';
+        }
+        
+        if (this.resultDisplay) {
+            this.resultDisplay.style.display = 'block';
+            this.resultDisplay.style.animation = 'none';
+        }
+        this.showMessage(`🎉 "${this.selectedName}" is the winner!`, 'success');
     }
     
     resetAndSpin() {
@@ -313,7 +331,10 @@ class NameRandomiser {
         
         // Hide result section
         this.wheelSection.style.display = 'none';
-        this.winnerSection.style.display = 'none';
+        if (this.winnerSection) {
+            this.winnerSection.style.display = 'block';
+            this.winnerSection.style.animation = 'none';
+        }
         
         // Reset wheel
         this.wheel.classList.remove('spinning');
@@ -500,7 +521,7 @@ class NameRandomiser {
     
     // Mode switching
     toggleMode() {
-        this.currentMode = this.modeToggle.checked ? 'raffle' : 'quiz';
+        this.currentMode = this.modeToggleCheckbox.checked ? 'raffle' : 'quiz';
         
         if (this.currentMode === 'raffle') {
             this.quizSection.style.display = 'none';
@@ -520,7 +541,10 @@ class NameRandomiser {
         
         // Hide result section when switching modes
         this.wheelSection.style.display = 'none';
-        this.winnerSection.style.display = 'none';
+        if (this.winnerSection) {
+            this.winnerSection.style.display = 'block';
+            this.winnerSection.style.animation = 'none';
+        }
     }
     
     // Raffle functionality
@@ -654,9 +678,12 @@ class NameRandomiser {
         this.selectedNumber = this.availableNumbers[Math.floor(Math.random() * this.availableNumbers.length)];
         this.updateRaffleSpinButton();
         
-        // Show wheel section and hide result display initially
+        // Show wheel section and hide winner content initially
         this.wheelSection.style.display = 'block';
-        this.winnerSection.style.display = 'none';
+        if (this.winnerSection) {
+            this.winnerSection.style.display = 'block';
+            this.winnerSection.style.animation = 'none';
+        }
         if (this.resultDisplay) {
             this.resultDisplay.style.display = 'none';
             this.resultDisplay.style.animation = 'none';
@@ -752,21 +779,25 @@ class NameRandomiser {
             !(num.number === this.selectedNumber.number && num.color === this.selectedNumber.color)
         );
         
-        // Show result after a short delay
-        setTimeout(async () => {
-            this.isSpinning = false;
-            this.updateRaffleSpinButton();
+        // Show result immediately after spin stops
+        this.isSpinning = false;
+        this.updateRaffleSpinButton();
+        
+        // Show winner section instantly
+        if (this.winnerSection) {
             this.winnerSection.style.display = 'block';
-            if (this.resultDisplay) {
-                this.resultDisplay.style.display = 'block';
-                this.resultDisplay.style.animation = 'fadeInUp 1s ease-out both';
-            }
-            const remainingCount = this.availableNumbers.length;
-            this.showMessage(`🎫 Ticket ${this.selectedNumber.number} is the winner! (${remainingCount} tickets remaining)`, 'success');
-            
-            // Play the number audio
-            await this.playNumberAudio(this.selectedNumber.number);
-        }, 500);
+            this.winnerSection.style.animation = 'none';
+        }
+        
+        if (this.resultDisplay) {
+            this.resultDisplay.style.display = 'block';
+            this.resultDisplay.style.animation = 'none';
+        }
+        const remainingCount = this.availableNumbers.length;
+        this.showMessage(`🎫 Ticket ${this.selectedNumber.number} is the winner! (${remainingCount} tickets remaining)`, 'success');
+        
+        // Play the number audio
+        this.playNumberAudio(this.selectedNumber.number);
     }
     
     // Login system
@@ -819,6 +850,9 @@ class NameRandomiser {
         // Show the wheel section
         if (this.wheelSection) this.wheelSection.style.display = 'block';
         
+        // Hide winner section initially
+        if (this.winnerSection) this.winnerSection.style.display = 'none';
+        
         // Remove view-only mode class
         document.body.classList.remove('view-only-mode');
     }
@@ -831,6 +865,9 @@ class NameRandomiser {
         
         // Show the wheel section
         if (this.wheelSection) this.wheelSection.style.display = 'block';
+        
+        // Hide winner section initially
+        if (this.winnerSection) this.winnerSection.style.display = 'none';
         
         // Add view-only mode class
         document.body.classList.add('view-only-mode');
@@ -903,7 +940,7 @@ class NameRandomiser {
             // Sync mode
             if (data.currentMode !== this.currentMode) {
                 this.currentMode = data.currentMode;
-                this.modeToggle.checked = data.currentMode === 'raffle';
+                this.modeToggleCheckbox.checked = data.currentMode === 'raffle';
                 this.toggleMode();
             }
             
@@ -917,9 +954,12 @@ class NameRandomiser {
         this.selectedName = data.selectedName;
         this.selectedNumber = data.selectedNumber;
         
-        // Show wheel and hide result
+        // Show wheel and hide winner content
         this.wheelSection.style.display = 'block';
-        this.winnerSection.style.display = 'none';
+        if (this.winnerSection) {
+            this.winnerSection.style.display = 'block';
+            this.winnerSection.style.animation = 'none';
+        }
         if (this.resultDisplay) {
             this.resultDisplay.style.display = 'none';
             this.resultDisplay.style.animation = 'none';
@@ -958,21 +998,24 @@ class NameRandomiser {
             this.winnerName.style.color = data.selectedNumber.color;
         }
         
-        // Show result after delay
-        setTimeout(async () => {
+        // Show result immediately after spin stops
+        // Show winner section instantly
+        if (this.winnerSection) {
             this.winnerSection.style.display = 'block';
-            if (this.resultDisplay) {
-                this.resultDisplay.style.display = 'block';
-                this.resultDisplay.style.animation = 'fadeInUp 1s ease-out both';
-            }
-            
-            this.updateButtonStates();
-            
-            // Play number audio for raffle
-            if (data.currentMode === 'raffle' && data.selectedNumber) {
-                await this.playNumberAudio(data.selectedNumber.number);
-            }
-        }, 500);
+            this.winnerSection.style.animation = 'none';
+        }
+        
+        if (this.resultDisplay) {
+            this.resultDisplay.style.display = 'block';
+            this.resultDisplay.style.animation = 'none';
+        }
+        
+        this.updateButtonStates();
+        
+        // Play number audio for raffle
+        if (data.currentMode === 'raffle' && data.selectedNumber) {
+            this.playNumberAudio(data.selectedNumber.number);
+        }
     }
     
     updateControllerStatus(controllerData) {
@@ -1041,9 +1084,12 @@ class NameRandomiser {
         // Sync to Firebase
         this.syncGameState();
         
-        // Show wheel and hide result
+        // Show wheel and hide winner content
         this.wheelSection.style.display = 'block';
-        this.winnerSection.style.display = 'none';
+        if (this.winnerSection) {
+            this.winnerSection.style.display = 'block';
+            this.winnerSection.style.animation = 'none';
+        }
         if (this.resultDisplay) {
             this.resultDisplay.style.display = 'none';
             this.resultDisplay.style.animation = 'none';
@@ -1081,9 +1127,12 @@ class NameRandomiser {
         // Sync to Firebase
         this.syncGameState();
         
-        // Show wheel and hide result
+        // Show wheel and hide winner content
         this.wheelSection.style.display = 'block';
-        this.winnerSection.style.display = 'none';
+        if (this.winnerSection) {
+            this.winnerSection.style.display = 'block';
+            this.winnerSection.style.animation = 'none';
+        }
         if (this.resultDisplay) {
             this.resultDisplay.style.display = 'none';
             this.resultDisplay.style.animation = 'none';
