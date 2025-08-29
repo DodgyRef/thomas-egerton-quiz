@@ -145,8 +145,23 @@ header p {
     border: 1px solid rgba(239, 68, 68, 0.3);
 }
 
+/* Separate sections styling */
+.wheel-section {
+    margin: 20px 0;
+    animation: fadeInUp 1s ease-out 0.5s both;
+}
+
+.winner-section {
+    margin: 20px 0;
+    animation: fadeInUp 1s ease-out 0.5s both;
+}
+
 /* View-only mode styling */
-.view-only-mode .result-section {
+.view-only-mode .wheel-section {
+    margin-top: 20px;
+}
+
+.view-only-mode .winner-section {
     margin-top: 20px;
 }
 
