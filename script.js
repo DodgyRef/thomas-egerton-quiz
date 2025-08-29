@@ -15,6 +15,7 @@ class NameRandomiser {
         this.isController = false; // True if this device controls the game
         this.firebaseConnected = false;
         this.syncData = null;
+        this.initialLoad = true; // Flag to prevent auto-spin on first load
         
         this.initializeElements();
         this.bindEvents();
@@ -884,7 +885,9 @@ class NameRandomiser {
     handleSyncUpdate(data) {
         if (!this.isController) {
             // This device is a viewer - sync with controller
-            if (data.isSpinning && !this.isSpinning) {
+            // Only start spinning if there's actual spin data and we're not already spinning
+            // Also check if this is not the initial load to prevent auto-spin on page load
+            if (data.isSpinning && !this.isSpinning && (data.selectedName || data.selectedNumber) && !this.initialLoad) {
                 this.startSyncSpin(data);
             } else if (!data.isSpinning && this.isSpinning) {
                 this.stopSyncSpin(data);
@@ -896,6 +899,9 @@ class NameRandomiser {
                 this.modeToggle.checked = data.currentMode === 'raffle';
                 this.toggleMode();
             }
+            
+            // Mark that initial load is complete
+            this.initialLoad = false;
         }
     }
     
