@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Thomas Egerton - Quiz Name Randomiser</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="logo-container">
+                <img src="thomas-egerton.jpg" alt="The Thomas Egerton" class="logo">
+            </div>
+            <h1 id="mainTitle">Quiz Name Randomiser</h1>
+            
+            <!-- Login Section -->
+            <div class="login-section" id="loginSection">
+                <div class="login-form">
+                    <input type="password" id="adminPassword" placeholder="Enter admin password..." maxlength="20">
+                    <button id="loginBtn" class="btn btn-primary">Login</button>
+                    <button id="logoutBtn" class="btn btn-secondary" style="display: none;">Logout</button>
+                </div>
+                <div class="login-status" id="loginStatus">
+                    <span class="status-text">View Only Mode</span>
+                </div>
+            </div>
+            
+            <!-- Toggle Switch -->
+            <div class="mode-toggle">
+                <label class="toggle-switch">
+                    <input type="checkbox" id="modeToggle">
+                    <span class="slider">
+                        <span class="toggle-text left">Quiz Names</span>
+                        <span class="toggle-text right">Raffle Tickets</span>
+                    </span>
+                </label>
+            </div>
+        </header>
+        
+        <!-- Quiz Names Section -->
+        <div class="input-section" id="quizSection">
+            <div class="input-group">               
+                <div class="input-container">
+                    <input type="text" id="nameInput" placeholder="Enter a name..." maxlength="50">
+                    <button id="addBtn" class="btn btn-primary">Add</button>
+                </div>
+            </div>
+            
+            <div class="names-list" id="namesList">
+                <p class="empty-message">No names added yet. Add some names to get started!</p>
+            </div>
+            
+            <div class="controls">
+                <button id="clearBtn" class="btn btn-secondary">Clear All</button>
+                <button id="spinBtn" class="btn btn-success" disabled>🎯 Spin the Wheel!</button>
+            </div>
+        </div>
+
+        <!-- Raffle Tickets Section -->
+        <div class="input-section" id="raffleSection" style="display: none;">
+            <div class="input-group">
+                <label for="rangeInput">Add a number range:</label>
+                <div class="range-input-container">
+                    <input type="number" id="rangeStart" placeholder="Start" min="1" max="9999">
+                    <span class="range-separator">to</span>
+                    <input type="number" id="rangeEnd" placeholder="End" min="1" max="9999">
+                    <input type="color" id="rangeColor" value="#8b5cf6" title="Choose color for this range">
+                    <button id="addRangeBtn" class="btn btn-primary">Add Range</button>
+                </div>
+            </div>
+            
+            <div class="ranges-list" id="rangesList">
+                <p class="empty-message">No ranges added yet. Add some number ranges to get started!</p>
+            </div>
+            
+            <div class="controls">
+                <button id="clearRangesBtn" class="btn btn-secondary">Clear All</button>
+                <button id="spinRaffleBtn" class="btn btn-success" disabled>🎫 Draw Ticket!</button>
+            </div>
+        </div>
+        
+        <div class="result-section" id="resultSection" style="display: none;">
+            <div class="wheel-container">
+                <div class="wheel" id="wheel">
+                    <div class="wheel-content" id="wheelContent">
+                        <span class="current-name" id="currentName">Ready to spin!</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="result-display" id="resultDisplay">
+                <h2 id="resultTitle">🎉 The winner is:</h2>
+                <div class="winner-name" id="winnerName"></div>
+            </div>
+        </div>
+    </div>
+    
+    <script src="script.js"></script>
+</body>
+</html>
