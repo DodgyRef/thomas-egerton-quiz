@@ -118,6 +118,33 @@ header p {
     border: 1px solid rgba(245, 158, 11, 0.3);
 }
 
+.sync-status {
+    text-align: center;
+    margin-top: 5px;
+}
+
+.sync-text {
+    background: rgba(255, 255, 255, 0.1);
+    color: white;
+    padding: 6px 12px;
+    border-radius: 15px;
+    font-size: 12px;
+    font-weight: 500;
+    display: inline-block;
+}
+
+.sync-text.connected {
+    background: rgba(16, 185, 129, 0.2);
+    color: #10b981;
+    border: 1px solid rgba(16, 185, 129, 0.3);
+}
+
+.sync-text.disconnected {
+    background: rgba(239, 68, 68, 0.2);
+    color: #ef4444;
+    border: 1px solid rgba(239, 68, 68, 0.3);
+}
+
 /* Mode Toggle Switch */
 .mode-toggle {
     margin: 10px 0;

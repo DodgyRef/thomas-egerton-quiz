@@ -5,6 +5,35 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>The Thomas Egerton - Quiz Name Randomiser</title>
     <link rel="stylesheet" href="styles.css">
+    
+    <!-- Firebase SDK -->
+    <script type="module">
+        import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js';
+        import { getDatabase, ref, onValue, set, push } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js';
+        // Firebase configuration - Replace with your config
+        const firebaseConfig = {            
+            apiKey: "AIzaSyBM98bSml86qtJsnQTTVETDSN-2YJqLEls",
+            authDomain: "thomas-egerton-quiz.firebaseapp.com",
+            databaseURL: "https://thomas-egerton-quiz-default-rtdb.europe-west1.firebasedatabase.app",
+            projectId: "thomas-egerton-quiz",
+            storageBucket: "thomas-egerton-quiz.firebasestorage.app",
+            messagingSenderId: "380312562959",
+            appId: "1:380312562959:web:a0861f4191e5730817e27a",
+            measurementId: "G-QEPV0VEVEF"
+        };
+
+        
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const database = getDatabase(app);
+        
+        // Make Firebase available globally
+        window.firebaseDatabase = database;
+        window.firebaseRef = ref;
+        window.firebaseOnValue = onValue;
+        window.firebaseSet = set;
+        window.firebasePush = push;
+    </script>
 </head>
 <body>
     <div class="container">
@@ -23,6 +52,9 @@
                 </div>
                 <div class="login-status" id="loginStatus">
                     <span class="status-text">View Only Mode</span>
+                </div>
+                <div class="sync-status" id="syncStatus">
+                    <span class="sync-text">🔄 Connecting...</span>
                 </div>
             </div>
             

@@ -12,12 +12,16 @@ class NameRandomiser {
         this.currentMode = 'quiz'; // 'quiz' or 'raffle'
         this.isAdminLoggedIn = false;
         this.adminPassword = 'tequiz2025'; // Change this to your desired password
+        this.isController = false; // True if this device controls the game
+        this.firebaseConnected = false;
+        this.syncData = null;
         
         this.initializeElements();
         this.bindEvents();
         this.loadPredefinedNames();
         this.initializeAudio();
         this.updateButtonStates();
+        this.initializeFirebase();
     }
     
     initializeElements() {
@@ -55,6 +59,7 @@ class NameRandomiser {
         this.loginBtn = document.getElementById('loginBtn');
         this.logoutBtn = document.getElementById('logoutBtn');
         this.loginStatus = document.getElementById('loginStatus');
+        this.syncStatus = document.getElementById('syncStatus');
     }
     
     bindEvents() {
@@ -761,7 +766,8 @@ class NameRandomiser {
             this.isAdminLoggedIn = true;
             this.updateLoginUI();
             this.updateButtonStates();
-            this.showMessage('Admin access granted!', 'success');
+            this.claimController();
+            this.showMessage('Admin access granted! You are now the controller.', 'success');
         } else {
             this.showMessage('Invalid password!', 'error');
             this.adminPasswordInput.value = '';
@@ -770,6 +776,7 @@ class NameRandomiser {
     
     handleLogout() {
         this.isAdminLoggedIn = false;
+        this.releaseController();
         this.updateLoginUI();
         this.updateButtonStates();
         this.adminPasswordInput.value = '';
@@ -793,6 +800,274 @@ class NameRandomiser {
     updateButtonStates() {
         this.updateSpinButton();
         this.updateRaffleSpinButton();
+    }
+    
+    // Firebase integration
+    initializeFirebase() {
+        // Wait for Firebase to be available
+        const checkFirebase = () => {
+            if (window.firebaseDatabase && window.firebaseRef && window.firebaseOnValue && window.firebaseSet) {
+                this.setupFirebaseListeners();
+            } else {
+                setTimeout(checkFirebase, 100);
+            }
+        };
+        checkFirebase();
+    }
+    
+    setupFirebaseListeners() {
+        try {
+            const database = window.firebaseDatabase;
+            const ref = window.firebaseRef;
+            const onValue = window.firebaseOnValue;
+            const set = window.firebaseSet;
+            
+            // Listen for game state changes
+            const gameStateRef = ref(database, 'gameState');
+            onValue(gameStateRef, (snapshot) => {
+                const data = snapshot.val();
+                if (data) {
+                    this.syncData = data;
+                    this.handleSyncUpdate(data);
+                }
+            });
+            
+            // Listen for controller status
+            const controllerRef = ref(database, 'controller');
+            onValue(controllerRef, (snapshot) => {
+                const controllerData = snapshot.val();
+                if (controllerData) {
+                    this.updateControllerStatus(controllerData);
+                }
+            });
+            
+            this.firebaseConnected = true;
+            this.updateSyncStatus('connected', '🟢 Connected');
+            
+        } catch (error) {
+            console.log('Firebase connection failed:', error);
+            this.updateSyncStatus('disconnected', '🔴 Disconnected');
+        }
+    }
+    
+    handleSyncUpdate(data) {
+        if (!this.isController) {
+            // This device is a viewer - sync with controller
+            if (data.isSpinning && !this.isSpinning) {
+                this.startSyncSpin(data);
+            } else if (!data.isSpinning && this.isSpinning) {
+                this.stopSyncSpin(data);
+            }
+            
+            // Sync mode
+            if (data.currentMode !== this.currentMode) {
+                this.currentMode = data.currentMode;
+                this.modeToggle.checked = data.currentMode === 'raffle';
+                this.toggleMode();
+            }
+        }
+    }
+    
+    startSyncSpin(data) {
+        this.isSpinning = true;
+        this.selectedName = data.selectedName;
+        this.selectedNumber = data.selectedNumber;
+        
+        // Show wheel and hide result
+        this.resultSection.style.display = 'block';
+        if (this.resultDisplay) {
+            this.resultDisplay.style.display = 'none';
+            this.resultDisplay.style.animation = 'none';
+        }
+        
+        // Start animation based on mode
+        if (data.currentMode === 'quiz') {
+            this.animateSpin();
+        } else {
+            this.animateRaffleSpin(data.availableNumbers || []);
+        }
+        
+        // Play countdown audio
+        this.playCountdownAudio();
+        
+        this.updateButtonStates();
+    }
+    
+    stopSyncSpin(data) {
+        this.isSpinning = false;
+        
+        // Stop countdown audio
+        this.stopCountdownAudio();
+        
+        // Remove spinning class
+        this.wheel.classList.remove('spinning');
+        
+        // Show the selected result
+        if (data.currentMode === 'quiz') {
+            this.currentName.textContent = data.selectedName;
+            this.winnerName.textContent = data.selectedName;
+        } else {
+            this.currentName.textContent = data.selectedNumber.number;
+            this.currentName.style.color = data.selectedNumber.color;
+            this.winnerName.textContent = data.selectedNumber.number;
+            this.winnerName.style.color = data.selectedNumber.color;
+        }
+        
+        // Show result after delay
+        setTimeout(async () => {
+            if (this.resultDisplay) {
+                this.resultDisplay.style.display = 'block';
+                this.resultDisplay.style.animation = 'fadeInUp 1s ease-out both';
+            }
+            
+            this.updateButtonStates();
+            
+            // Play number audio for raffle
+            if (data.currentMode === 'raffle' && data.selectedNumber) {
+                await this.playNumberAudio(data.selectedNumber.number);
+            }
+        }, 500);
+    }
+    
+    updateControllerStatus(controllerData) {
+        // Check if this device should be the controller
+        if (this.isAdminLoggedIn && !controllerData.currentController) {
+            this.claimController();
+        } else if (!this.isAdminLoggedIn && this.isController) {
+            this.releaseController();
+        }
+    }
+    
+    claimController() {
+        if (window.firebaseSet && window.firebaseRef) {
+            const database = window.firebaseDatabase;
+            const ref = window.firebaseRef;
+            const set = window.firebaseSet;
+            
+            this.isController = true;
+            set(ref(database, 'controller'), {
+                currentController: true,
+                timestamp: Date.now()
+            });
+        }
+    }
+    
+    releaseController() {
+        if (window.firebaseSet && window.firebaseRef) {
+            const database = window.firebaseDatabase;
+            const ref = window.firebaseRef;
+            const set = window.firebaseSet;
+            
+            this.isController = false;
+            set(ref(database, 'controller'), {
+                currentController: false,
+                timestamp: Date.now()
+            });
+        }
+    }
+    
+    updateSyncStatus(status, text) {
+        if (this.syncStatus) {
+            this.syncStatus.innerHTML = `<span class="sync-text ${status}">${text}</span>`;
+        }
+    }
+    
+    // Override spin methods to sync with Firebase
+    startSpin() {
+        if (this.names.length < 2) {
+            this.showMessage('Please add at least 2 names to spin!', 'error');
+            return;
+        }
+        
+        if (this.isSpinning) {
+            return;
+        }
+        
+        if (!this.isController) {
+            this.showMessage('Only the controller can start spins!', 'error');
+            return;
+        }
+        
+        this.isSpinning = true;
+        this.selectedName = this.names[Math.floor(Math.random() * this.names.length)];
+        this.updateButtonStates();
+        
+        // Sync to Firebase
+        this.syncGameState();
+        
+        // Show wheel and hide result
+        this.resultSection.style.display = 'block';
+        if (this.resultDisplay) {
+            this.resultDisplay.style.display = 'none';
+            this.resultDisplay.style.animation = 'none';
+        }
+        this.resultSection.scrollIntoView({ behavior: 'smooth' });
+        
+        // Start the spinning animation
+        this.animateSpin();
+        
+        // Play countdown audio
+        this.playCountdownAudio();
+        
+        this.showMessage('Spinning... Good luck!', 'info');
+    }
+    
+    startRaffleSpin() {
+        if (this.availableNumbers.length === 0) {
+            this.showMessage('No tickets left to draw!', 'error');
+            return;
+        }
+        
+        if (this.isSpinning) {
+            return;
+        }
+        
+        if (!this.isController) {
+            this.showMessage('Only the controller can start spins!', 'error');
+            return;
+        }
+        
+        this.isSpinning = true;
+        this.selectedNumber = this.availableNumbers[Math.floor(Math.random() * this.availableNumbers.length)];
+        this.updateRaffleSpinButton();
+        
+        // Sync to Firebase
+        this.syncGameState();
+        
+        // Show wheel and hide result
+        this.resultSection.style.display = 'block';
+        if (this.resultDisplay) {
+            this.resultDisplay.style.display = 'none';
+            this.resultDisplay.style.animation = 'none';
+        }
+        this.resultSection.scrollIntoView({ behavior: 'smooth' });
+        
+        // Start the spinning animation
+        this.animateRaffleSpin(this.availableNumbers);
+        
+        // Play countdown audio
+        this.playCountdownAudio();
+        
+        this.showMessage('Drawing ticket... Good luck!', 'info');
+    }
+    
+    syncGameState() {
+        if (window.firebaseSet && window.firebaseRef && this.isController) {
+            const database = window.firebaseDatabase;
+            const ref = window.firebaseRef;
+            const set = window.firebaseSet;
+            
+            const gameState = {
+                isSpinning: this.isSpinning,
+                currentMode: this.currentMode,
+                selectedName: this.selectedName,
+                selectedNumber: this.selectedNumber,
+                availableNumbers: this.availableNumbers,
+                timestamp: Date.now()
+            };
+            
+            set(ref(database, 'gameState'), gameState);
+        }
     }
 }
 
