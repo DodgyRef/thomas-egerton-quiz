@@ -211,10 +211,10 @@ class NameRandomiser {
         this.selectedName = this.names[Math.floor(Math.random() * this.names.length)];
         this.updateSpinButton();
         
-        // Show wheel section and hide winner content initially
+        // Show wheel section and hide winner section initially
         this.wheelSection.style.display = 'block';
         if (this.winnerSection) {
-            this.winnerSection.style.display = 'block';
+            this.winnerSection.style.display = 'none';
             this.winnerSection.style.animation = 'none';
         }
         if (this.resultDisplay) {
@@ -313,11 +313,13 @@ class NameRandomiser {
         if (this.winnerSection) {
             this.winnerSection.style.display = 'block';
             this.winnerSection.style.animation = 'none';
+            console.log('Winner section shown');
         }
         
         if (this.resultDisplay) {
             this.resultDisplay.style.display = 'block';
             this.resultDisplay.style.animation = 'none';
+            console.log('Result display shown, winner name:', this.winnerName.textContent);
         }
         this.showMessage(`🎉 "${this.selectedName}" is the winner!`, 'success');
     }
@@ -680,10 +682,10 @@ class NameRandomiser {
         this.selectedNumber = this.availableNumbers[Math.floor(Math.random() * this.availableNumbers.length)];
         this.updateRaffleSpinButton();
         
-        // Show wheel section and hide winner content initially
+        // Show wheel section and hide winner section initially
         this.wheelSection.style.display = 'block';
         if (this.winnerSection) {
-            this.winnerSection.style.display = 'block';
+            this.winnerSection.style.display = 'none';
             this.winnerSection.style.animation = 'none';
         }
         if (this.resultDisplay) {
@@ -929,15 +931,11 @@ class NameRandomiser {
     }
     
     handleSyncUpdate(data) {
-        console.log('Sync update received:', data, 'isController:', this.isController, 'isSpinning:', this.isSpinning);
-        
         // Only start spinning if there's actual spin data and we're not already spinning
         // Also check if this is not the initial load to prevent auto-spin on page load
         if (data.isSpinning && !this.isSpinning && (data.selectedName || data.selectedNumber) && !this.initialLoad) {
-            console.log('Starting sync spin');
             this.startSyncSpin(data);
         } else if (!data.isSpinning && this.isSpinning) {
-            console.log('Stopping sync spin');
             this.stopSyncSpin(data);
         }
         
@@ -963,10 +961,10 @@ class NameRandomiser {
         this.selectedName = data.selectedName;
         this.selectedNumber = data.selectedNumber;
         
-        // Show wheel and hide winner content
+        // Show wheel and hide winner section
         this.wheelSection.style.display = 'block';
         if (this.winnerSection) {
-            this.winnerSection.style.display = 'block';
+            this.winnerSection.style.display = 'none';
             this.winnerSection.style.animation = 'none';
         }
         if (this.resultDisplay) {
@@ -1058,13 +1056,10 @@ class NameRandomiser {
             const set = window.firebaseSet;
             
             this.isController = true;
-            console.log('Claiming controller status');
             set(ref(database, 'controller'), {
                 currentController: true,
                 timestamp: Date.now()
             });
-        } else {
-            console.log('Firebase not available for claiming controller');
         }
     }
     
@@ -1090,8 +1085,6 @@ class NameRandomiser {
     
     // Override spin methods to sync with Firebase
     startSpin() {
-        console.log('startSpin called, isController:', this.isController, 'isSpinning:', this.isSpinning);
-        
         if (this.names.length < 2) {
             this.showMessage('Please add at least 2 names to spin!', 'error');
             return;
@@ -1113,10 +1106,10 @@ class NameRandomiser {
         // Sync to Firebase
         this.syncGameState();
         
-        // Show wheel and hide winner content
+        // Show wheel and hide winner section
         this.wheelSection.style.display = 'block';
         if (this.winnerSection) {
-            this.winnerSection.style.display = 'block';
+            this.winnerSection.style.display = 'none';
             this.winnerSection.style.animation = 'none';
         }
         if (this.resultDisplay) {
@@ -1156,10 +1149,10 @@ class NameRandomiser {
         // Sync to Firebase
         this.syncGameState();
         
-        // Show wheel and hide winner content
+        // Show wheel and hide winner section
         this.wheelSection.style.display = 'block';
         if (this.winnerSection) {
-            this.winnerSection.style.display = 'block';
+            this.winnerSection.style.display = 'none';
             this.winnerSection.style.animation = 'none';
         }
         if (this.resultDisplay) {
