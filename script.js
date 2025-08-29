@@ -22,6 +22,9 @@ class NameRandomiser {
         this.initializeAudio();
         this.updateButtonStates();
         this.initializeFirebase();
+        
+        // Set initial view state (view-only by default)
+        this.hideInputSections();
     }
     
     initializeElements() {
@@ -789,12 +792,40 @@ class NameRandomiser {
             this.logoutBtn.style.display = 'inline-block';
             this.adminPasswordInput.style.display = 'none';
             this.loginStatus.innerHTML = '<span class="status-text admin">Admin Mode - Full Access</span>';
+            this.showInputSections();
         } else {
             this.loginBtn.style.display = 'inline-block';
             this.logoutBtn.style.display = 'none';
             this.adminPasswordInput.style.display = 'inline-block';
             this.loginStatus.innerHTML = '<span class="status-text view-only">View Only Mode</span>';
+            this.hideInputSections();
         }
+    }
+    
+    showInputSections() {
+        // Show all input sections for admin
+        if (this.quizSection) this.quizSection.style.display = 'block';
+        if (this.raffleSection) this.raffleSection.style.display = 'block';
+        if (this.modeToggle) this.modeToggle.style.display = 'block';
+        
+        // Show the wheel section
+        if (this.resultSection) this.resultSection.style.display = 'block';
+        
+        // Remove view-only mode class
+        document.body.classList.remove('view-only-mode');
+    }
+    
+    hideInputSections() {
+        // Hide input sections for viewers
+        if (this.quizSection) this.quizSection.style.display = 'none';
+        if (this.raffleSection) this.raffleSection.style.display = 'none';
+        if (this.modeToggle) this.modeToggle.style.display = 'none';
+        
+        // Show the wheel section
+        if (this.resultSection) this.resultSection.style.display = 'block';
+        
+        // Add view-only mode class
+        document.body.classList.add('view-only-mode');
     }
     
     updateButtonStates() {

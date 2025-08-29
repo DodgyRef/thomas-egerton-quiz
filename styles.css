@@ -145,6 +145,15 @@ header p {
     border: 1px solid rgba(239, 68, 68, 0.3);
 }
 
+/* View-only mode styling */
+.view-only-mode .result-section {
+    margin-top: 20px;
+}
+
+.view-only-mode .login-section {
+    margin-bottom: 20px;
+}
+
 /* Mode Toggle Switch */
 .mode-toggle {
     margin: 10px 0;
