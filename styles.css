@@ -315,17 +315,21 @@ input:checked + .slider:before {
     box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.1);
 }
 
-#rangeColor {
-    width: 50px;
+#rangeDescription {
+    width: 120px;
     height: 50px;
-    border: none;
+    border: 2px solid #e2e8f0;
     border-radius: 10px;
-    cursor: pointer;
-    transition: transform 0.2s ease;
+    padding: 0 15px;
+    font-size: 14px;
+    background: white;
+    transition: border-color 0.3s ease;
 }
 
-#rangeColor:hover {
-    transform: scale(1.1);
+#rangeDescription:focus {
+    outline: none;
+    border-color: #8b5cf6;
+    box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.1);
 }
 
 .ranges-list {
