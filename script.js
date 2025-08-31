@@ -27,6 +27,9 @@ class NameRandomiser {
         // Set initial view state (view-only by default)
         this.hideInputSections();
         
+        // Add click listener to winner section for admin dismissal
+        this.setupWinnerClickHandler();
+        
         // Hide winner section initially
         if (this.winnerSection) {
             this.winnerSection.style.display = 'none';
@@ -321,6 +324,7 @@ class NameRandomiser {
             this.resultDisplay.style.animation = 'none';
             console.log('Result display shown, winner name:', this.winnerName.textContent);
         }
+        
         this.showMessage(`🎉 "${this.selectedName}" is the winner!`, 'success');
     }
     
@@ -799,7 +803,7 @@ class NameRandomiser {
         }
         const remainingCount = this.availableNumbers.length;
         this.showMessage(`🎫 Ticket ${this.selectedNumber.number} is the winner! (${remainingCount} tickets remaining)`, 'success');
-        
+        this.wheelSection.style.display = 'none';
         // Play the number audio
         this.playNumberAudio(this.selectedNumber.number);
     }
@@ -846,13 +850,18 @@ class NameRandomiser {
     }
     
     showInputSections() {
-        // Show all input sections for admin
-        if (this.quizSection) this.quizSection.style.display = 'block';
-        if (this.raffleSection) this.raffleSection.style.display = 'block';
+        // Show toggle and wheel section for admin
         if (this.modeToggle) this.modeToggle.style.display = 'block';
-        
-        // Show the wheel section
         if (this.wheelSection) this.wheelSection.style.display = 'block';
+        
+        // Show the appropriate section based on current mode
+        if (this.currentMode === 'raffle') {
+            if (this.quizSection) this.quizSection.style.display = 'none';
+            if (this.raffleSection) this.raffleSection.style.display = 'block';
+        } else {
+            if (this.quizSection) this.quizSection.style.display = 'block';
+            if (this.raffleSection) this.raffleSection.style.display = 'none';
+        }
         
         // Hide winner section initially
         if (this.winnerSection) this.winnerSection.style.display = 'none';
@@ -1186,6 +1195,17 @@ class NameRandomiser {
             };
             
             set(ref(database, 'gameState'), gameState);
+        }
+    }
+    
+    setupWinnerClickHandler() {
+        if (this.winnerSection) {
+            this.winnerSection.addEventListener('click', () => {
+                // Only allow dismissal if admin is logged in
+                if (this.isAdminLoggedIn) {
+                    this.winnerSection.style.display = 'none';
+                }
+            });
         }
     }
 }
