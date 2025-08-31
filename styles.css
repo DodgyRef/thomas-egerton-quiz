@@ -149,11 +149,11 @@ header p {
 
 .winner-section {
     position: absolute;
-    top: 65%;
+    top: 70%;
     left: 50%;
     transform: translate(-50%, -50%);
     z-index: 1000;
-    margin: 300px;
+    margin: 0;
     padding: 30px 20px;
     background: rgba(139, 92, 246, 0.95);
     border-radius: 15px;
