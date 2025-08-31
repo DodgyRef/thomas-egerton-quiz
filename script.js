@@ -338,7 +338,7 @@ class NameRandomiser {
             this.resultDisplay.style.animation = 'none';
             console.log('Result display shown, winner name:', this.winnerName.textContent);
         }
-        
+        this.wheelSection.style.display = 'none';
         this.showMessage(`🎉 "${this.selectedName}" is the winner!`, 'success');
     }
     

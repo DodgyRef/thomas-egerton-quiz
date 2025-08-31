@@ -538,13 +538,14 @@ input:checked + .slider:before {
 
 .wheel-content {
     text-align: center;
-    color: white;
+    color: white !important;
     z-index: 5;
 }
 
 .current-name {
     font-size: 24px;
     font-weight: 600;
+    color: white !important;
     text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
     display: block;
     min-height: 30px;
