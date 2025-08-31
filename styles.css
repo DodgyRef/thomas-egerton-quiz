@@ -19,7 +19,7 @@ body {
     min-height: 100vh;
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    justify-content: flex-start;
     position: relative;
 }
 
@@ -654,6 +654,11 @@ input:checked + .slider:before {
 @media (max-width: 768px) {
     .container {
         padding: 15px;
+        justify-content: flex-start;
+    }
+    
+    header {
+        margin-bottom: 20px;
     }
     
     header h1 {
@@ -697,6 +702,15 @@ input:checked + .slider:before {
 }
 
 @media (max-width: 480px) {
+    .container {
+        padding: 10px;
+        justify-content: flex-start;
+    }
+    
+    header {
+        margin-bottom: 15px;
+    }
+    
     header h1 {
         font-size: 1.8rem;
     }
