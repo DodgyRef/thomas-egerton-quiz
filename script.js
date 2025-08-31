@@ -723,7 +723,7 @@ class NameRandomiser {
     
     animateRaffleSpin(allNumbers) {
         let totalTime = 0;
-        const targetTime = 5000; // 5 seconds
+        const targetTime = 7000; // 5 seconds
         const updateInterval = 50; // Update every 50ms for smooth animation
         
         // Add spinning class to wheel
