@@ -583,6 +583,12 @@ input:checked + .slider:before {
     animation: pulse 2s infinite;
 }
 
+/* Larger font for raffle ticket winners */
+.raffle-mode .winner-name {
+    font-size: 4.5rem;
+    line-height: 1.2;
+}
+
 /* Animations */
 @keyframes fadeInDown {
     from {
@@ -704,6 +710,10 @@ input:checked + .slider:before {
     .winner-name {
         font-size: 2.5rem;
     }
+    
+    .raffle-mode .winner-name {
+        font-size: 3.5rem;
+    }
 }
 
 @media (max-width: 480px) {
@@ -741,5 +751,9 @@ input:checked + .slider:before {
     
     .winner-name {
         font-size: 2rem;
+    }
+    
+    .raffle-mode .winner-name {
+        font-size: 3rem;
     }
 }
