@@ -550,7 +550,13 @@ class NameRandomiser {
     toggleMode() {
         console.log('toggleMode called, checkbox checked:', this.modeToggleCheckbox.checked);
         this.currentMode = this.modeToggleCheckbox.checked ? 'raffle' : 'quiz';
+        this.updateModeDisplay();
         
+        // Sync mode change to all devices immediately (only for user-initiated changes)
+        this.syncGameState();
+    }
+    
+    updateModeDisplay() {
         if (this.currentMode === 'raffle') {
             this.quizSection.style.display = 'none';
             // Only show raffle section if admin is logged in
@@ -575,9 +581,6 @@ class NameRandomiser {
             this.winnerSection.style.display = 'block';
             this.winnerSection.style.animation = 'none';
         }
-        
-        // Sync mode change to all devices immediately
-        this.syncGameState();
     }
     
     // Raffle functionality
@@ -941,6 +944,9 @@ class NameRandomiser {
             const onValue = window.firebaseOnValue;
             const set = window.firebaseSet;
             
+            // Clear any existing spinning state on page load
+            this.clearSpinningState();
+            
             // Listen for game state changes
             const gameStateRef = ref(database, 'gameState');
             onValue(gameStateRef, (snapshot) => {
@@ -970,18 +976,47 @@ class NameRandomiser {
         }
     }
     
+    clearSpinningState() {
+        // Clear any existing spinning state in Firebase to prevent auto-spin on page load
+        if (window.firebaseSet && window.firebaseRef) {
+            const database = window.firebaseDatabase;
+            const ref = window.firebaseRef;
+            const set = window.firebaseSet;
+            
+            const clearState = {
+                isSpinning: false,
+                currentMode: this.currentMode,
+                selectedName: null,
+                selectedNumber: null,
+                availableNumbers: [],
+                timestamp: Date.now()
+            };
+            
+            console.log('Clearing spinning state on page load');
+            set(ref(database, 'gameState'), clearState);
+        }
+    }
+    
     handleSyncUpdate(data) {
         console.log('Sync update received:', { 
             isSpinning: data.isSpinning, 
             currentMode: data.currentMode, 
             initialLoad: this.initialLoad,
-            isController: this.isController 
+            isController: this.isController,
+            hasSelectedName: !!data.selectedName,
+            hasSelectedNumber: !!data.selectedNumber
         });
         
         // Mark that initial load is complete on first update
         if (this.initialLoad) {
             console.log('Initial load complete, now ready to sync');
             this.initialLoad = false;
+            
+            // If there's old spinning data on initial load, ignore it
+            if (data.isSpinning) {
+                console.log('Ignoring old spinning data on initial load');
+                return;
+            }
         }
         
         // Only start spinning if there's actual spin data and we're not already spinning
@@ -1002,10 +1037,10 @@ class NameRandomiser {
             });
             this.currentMode = data.currentMode;
             this.modeToggleCheckbox.checked = data.currentMode === 'raffle';
-            // Only call toggleMode if this device is the controller (admin)
+            // Update mode display for all devices (no sync to avoid loops)
             if (this.isController) {
                 console.log('Controller updating mode UI');
-                this.toggleMode();
+                this.updateModeDisplay();
             } else {
                 // For viewers, just update the UI without showing input sections
                 console.log('Viewer updating mode UI');
