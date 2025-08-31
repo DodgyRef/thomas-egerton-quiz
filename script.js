@@ -79,6 +79,12 @@ class NameRandomiser {
         this.logoutBtn = document.getElementById('logoutBtn');
         this.loginStatus = document.getElementById('loginStatus');
         this.syncStatus = document.getElementById('syncStatus');
+        this.logoContainer = document.querySelector('.logo-container');
+        this.loginSection = document.getElementById('loginSection');
+        
+        // Debug logs
+        console.log('Logo container found:', !!this.logoContainer);
+        console.log('Login section found:', !!this.loginSection);
     }
     
     bindEvents() {
@@ -134,6 +140,14 @@ class NameRandomiser {
                 this.addRange();
             }
         });
+        
+        // Logo click to show/hide login section
+        if (this.logoContainer) {
+            console.log('Logo container found, adding click listener'); // Debug log
+            this.logoContainer.addEventListener('click', () => this.toggleLoginSection());
+        } else {
+            console.log('Logo container not found!'); // Debug log
+        }
     }
     
     addName() {
@@ -1195,6 +1209,18 @@ class NameRandomiser {
             };
             
             set(ref(database, 'gameState'), gameState);
+        }
+    }
+    
+    toggleLoginSection() {
+        console.log('Logo clicked!'); // Debug log
+        if (this.loginSection) {
+            const isVisible = this.loginSection.style.display !== 'none';
+            console.log('Login section currently visible:', isVisible); // Debug log
+            this.loginSection.style.display = isVisible ? 'none' : 'block';
+            console.log('Login section display set to:', this.loginSection.style.display); // Debug log
+        } else {
+            console.log('Login section not found!'); // Debug log
         }
     }
     
