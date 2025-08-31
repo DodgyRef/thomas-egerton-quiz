@@ -52,7 +52,7 @@ class NameRandomiser {
         // Raffle elements
         this.rangeStart = document.getElementById('rangeStart');
         this.rangeEnd = document.getElementById('rangeEnd');
-        this.rangeColor = document.getElementById('rangeColor');
+        this.rangeDescription = document.getElementById('rangeDescription');
         this.addRangeBtn = document.getElementById('addRangeBtn');
         this.clearRangesBtn = document.getElementById('clearRangesBtn');
         this.spinRaffleBtn = document.getElementById('spinRaffleBtn');
@@ -135,6 +135,13 @@ class NameRandomiser {
         });
         
         this.rangeEnd.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter') {
+                e.preventDefault();
+                this.addRange();
+            }
+        });
+        
+        this.rangeDescription.addEventListener('keydown', (e) => {
             if (e.key === 'Enter') {
                 e.preventDefault();
                 this.addRange();
@@ -573,10 +580,15 @@ class NameRandomiser {
     addRange() {
         const start = parseInt(this.rangeStart.value);
         const end = parseInt(this.rangeEnd.value);
-        const color = this.rangeColor.value;
+        const description = this.rangeDescription.value.trim();
         
         if (!start || !end) {
             this.showMessage('Please enter both start and end numbers!', 'error');
+            return;
+        }
+        
+        if (!description) {
+            this.showMessage('Please enter a description for the range!', 'error');
             return;
         }
         
@@ -590,60 +602,60 @@ class NameRandomiser {
             return;
         }
         
-        // Check for overlapping ranges with the same color
+        // Check for overlapping ranges with the same description
         for (let range of this.ranges) {
-            if (range.color === color && 
+            if (range.description === description && 
                 ((start >= range.start && start <= range.end) || 
                  (end >= range.start && end <= range.end) ||
                  (start <= range.start && end >= range.end))) {
-                this.showMessage(`This range overlaps with an existing ${color} range! Use a different color for overlapping numbers.`, 'error');
+                this.showMessage(`This range overlaps with an existing ${description} range! Use a different description for overlapping numbers.`, 'error');
                 return;
             }
         }
         
-        const range = { start, end, color };
+        const range = { start, end, description };
         this.ranges.push(range);
         
         // Add all numbers from this range to the available pool
         for (let i = start; i <= end; i++) {
-            this.availableNumbers.push({ number: i, color: color, range: range });
+            this.availableNumbers.push({ number: i, description: description, range: range });
         }
         
         this.rangeStart.value = '';
         this.rangeEnd.value = '';
-        this.rangeColor.value = '#8b5cf6';
+        this.rangeDescription.value = '';
         
         this.updateRangesList();
         this.updateRaffleSpinButton();
         
-        // Check if this range overlaps with existing ranges of different colors
+        // Check if this range overlaps with existing ranges of different descriptions
         const overlappingRanges = this.ranges.filter(range => 
-            range.color !== color && 
+            range.description !== description && 
             ((start >= range.start && start <= range.end) || 
              (end >= range.start && end <= range.end) ||
              (start <= range.start && end >= range.end))
         );
         
         if (overlappingRanges.length > 0) {
-            this.showMessage(`Added ${color} range ${start}-${end}! (${end - start + 1} tickets) - Overlaps with ${overlappingRanges.length} other color range(s)`, 'success');
+            this.showMessage(`Added ${description} range ${start}-${end}! (${end - start + 1} tickets) - Overlaps with ${overlappingRanges.length} other description range(s)`, 'success');
         } else {
-            this.showMessage(`Added ${color} range ${start}-${end}! (${end - start + 1} tickets)`, 'success');
+            this.showMessage(`Added ${description} range ${start}-${end}! (${end - start + 1} tickets)`, 'success');
         }
     }
     
     removeRange(rangeToRemove) {
         this.ranges = this.ranges.filter(range => 
-            !(range.start === rangeToRemove.start && range.end === rangeToRemove.end && range.color === rangeToRemove.color)
+            !(range.start === rangeToRemove.start && range.end === rangeToRemove.end && range.description === rangeToRemove.description)
         );
         
-        // Remove all numbers from this specific range (with color) from the available pool
+        // Remove all numbers from this specific range (with description) from the available pool
         this.availableNumbers = this.availableNumbers.filter(num => 
-            !(num.range.start === rangeToRemove.start && num.range.end === rangeToRemove.end && num.range.color === rangeToRemove.color)
+            !(num.range.start === rangeToRemove.start && num.range.end === rangeToRemove.end && num.range.description === rangeToRemove.description)
         );
         
         this.updateRangesList();
         this.updateRaffleSpinButton();
-        this.showMessage(`Removed ${rangeToRemove.color} range ${rangeToRemove.start}-${rangeToRemove.end}!`, 'info');
+        this.showMessage(`Removed ${rangeToRemove.description} range ${rangeToRemove.start}-${rangeToRemove.end}!`, 'info');
     }
     
     clearAllRanges() {
@@ -668,8 +680,8 @@ class NameRandomiser {
         }
         
         this.rangesList.innerHTML = this.ranges.map(range => 
-            `<span class="range-tag" style="background-color: ${range.color};">
-                ${range.start}-${range.end} (${range.color.toUpperCase()})
+            `<span class="range-tag" style="background: linear-gradient(135deg, #6b46c1 0%, #8b5cf6 100%);">
+                ${range.start}-${range.end} (${range.description})
                 <button class="remove-btn" onclick="nameRandomiser.removeRange(${JSON.stringify(range).replace(/"/g, '&quot;')})" title="Remove">×</button>
             </span>`
         ).join('');
@@ -775,8 +787,8 @@ class NameRandomiser {
             }
             
             const currentNumber = allNumbers[currentIndex];
-            this.currentName.textContent = currentNumber.number;
-            this.currentName.style.color = currentNumber.color;
+            this.currentName.textContent = `${currentNumber.number} ${currentNumber.description}`;
+            this.currentName.style.color = 'white';
             
         }, updateInterval);
     }
@@ -791,14 +803,14 @@ class NameRandomiser {
         this.wheel.classList.remove('spinning');
         
         // Show the selected number
-        this.currentName.textContent = this.selectedNumber.number;
-        this.currentName.style.color = this.selectedNumber.color;
-        this.winnerName.textContent = this.selectedNumber.number;
-        this.winnerName.style.color = this.selectedNumber.color;
+        this.currentName.textContent = `${this.selectedNumber.number} ${this.selectedNumber.description}`;
+        this.currentName.style.color = 'white';
+        this.winnerName.textContent = `${this.selectedNumber.number} ${this.selectedNumber.description}`;
+        this.winnerName.style.color = 'white';
         
         // Remove the drawn number from the available pool
         this.availableNumbers = this.availableNumbers.filter(num => 
-            !(num.number === this.selectedNumber.number && num.color === this.selectedNumber.color)
+            !(num.number === this.selectedNumber.number && num.description === this.selectedNumber.description)
         );
         
         // Show result immediately after spin stops
@@ -1022,10 +1034,10 @@ class NameRandomiser {
             this.currentName.textContent = data.selectedName;
             this.winnerName.textContent = data.selectedName;
         } else {
-            this.currentName.textContent = data.selectedNumber.number;
-            this.currentName.style.color = data.selectedNumber.color;
-            this.winnerName.textContent = data.selectedNumber.number;
-            this.winnerName.style.color = data.selectedNumber.color;
+            this.currentName.textContent = `${data.selectedNumber.number} ${data.selectedNumber.description}`;
+            this.currentName.style.color = 'white';
+            this.winnerName.textContent = `${data.selectedNumber.number} ${data.selectedNumber.description}`;
+            this.winnerName.style.color = 'white';
         }
         
         // Show result immediately after spin stops
