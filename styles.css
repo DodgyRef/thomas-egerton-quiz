@@ -166,8 +166,19 @@ header p {
     box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
     backdrop-filter: blur(10px);
     min-width: 300px;
-    min-height: 370px;
+    min-height: 200px;
     text-align: center;
+}
+
+/* Make winner section clickable for admin */
+body:not(.view-only-mode) .winner-section {
+    cursor: pointer;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+body:not(.view-only-mode) .winner-section:hover {
+    transform: translate(-50%, -50%) scale(1.02);
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.6);
 }
 
 /* View-only mode styling */
@@ -556,10 +567,6 @@ input:checked + .slider:before {
     animation: spin 15s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
 }
 
-.result-display {
-    /* Animation controlled by JavaScript */
-}
-
 .result-display h2 {
     color: #333;
     margin-bottom: 20px;
@@ -569,7 +576,7 @@ input:checked + .slider:before {
 .winner-name {
     font-size: 3.5rem;
     font-weight: bold;
-    color: #ffffff;
+    color: #ffffff !important;
     text-align: center;
     margin-bottom: 30px;
     text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.5);
