@@ -305,7 +305,7 @@ class NameRandomiser {
         this.animateSpin();
         
         // Play countdown audio
-        //this.playCountdownAudio();
+        this.playCountdownAudio();
         
         this.showMessage('Spinning... Good luck!', 'info');
     }
@@ -602,7 +602,7 @@ class NameRandomiser {
 
     
     playCountdownAudio() {
-        /* console.log('=== playCountdownAudio called ===');
+        console.log('=== playCountdownAudio called ===');
         console.log('Called from:', new Error().stack.split('\n')[2].trim());
         console.log('audioPlaying flag:', this.audioPlaying);
         console.log('quiz audio exists:', !!this.audio);
@@ -638,7 +638,7 @@ class NameRandomiser {
             console.log('🚫 Quiz countdown audio already playing, ignoring call');
         } else if (!this.audio) {
             console.log('❌ No quiz audio object available');
-        } */
+        } 
     }
 
     playRaffleCountdownAudio() {
