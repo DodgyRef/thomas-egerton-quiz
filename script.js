@@ -642,7 +642,7 @@ class NameRandomiser {
     }
 
     playRaffleCountdownAudio() {
-        /* console.log('=== playRaffleCountdownAudio called ===');
+        console.log('=== playRaffleCountdownAudio called ===');
         console.log('Called from:', new Error().stack.split('\n')[2].trim());
         console.log('audioPlaying flag:', this.audioPlaying);
         console.log('raffleAudio exists:', !!this.raffleAudio);
@@ -696,7 +696,7 @@ class NameRandomiser {
             console.log('🚫 Raffle audio already playing, ignoring call');
         } else if (!this.raffleAudio) {
             console.log('❌ No raffle audio object available');
-        }*/
+        }
     }
     
     stopCountdownAudio() {
@@ -1558,11 +1558,11 @@ class NameRandomiser {
         if (data.currentMode === 'quiz') {
             console.log('=== Playing quiz countdown audio in sync ===');
             console.log('About to call playCountdownAudio from startSyncSpin');            
-            //this.playCountdownAudio();
-        } else {
+            this.playCountdownAudio();
+        } else {    
             console.log('=== Playing raffle countdown audio in sync ===');
             console.log('About to call playRaffleCountdownAudio from startSyncSpin');
-            //this.playRaffleCountdownAudio();
+            this.playRaffleCountdownAudio();
         }
         
         this.updateButtonStates();
