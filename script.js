@@ -612,8 +612,8 @@ class NameRandomiser {
         // CRITICAL FIX: Mute the raffle audio to prevent it from playing simultaneously
         if (this.raffleAudio) {
             console.log('🔇 Muting raffle audio to prevent interference');
-            this.raffleAudio.volume = 0;
-            this.raffleAudio.muted = true;
+            this.raffleAudio.volume = 0.7;
+            this.raffleAudio.muted = false;
         }
         
         if (this.audio && !this.audioPlaying) {
@@ -774,8 +774,8 @@ class NameRandomiser {
                 this.audio.load(); // Force reload the original audio file
                 this.audio.pause(); // Ensure it's paused
                 this.audio.currentTime = 0; // Reset to beginning
-                this.audio.volume = 0; // Mute it completely
-                this.audio.muted = true; // Ensure it's muted
+                this.audio.volume = 0.7; // Mute it completely
+                this.audio.muted = false; // Ensure it's muted
                 console.log('✅ Quiz audio kept as countdown-cut.mp3 but completely stopped and muted');
             }
         } else {
@@ -1732,8 +1732,8 @@ class NameRandomiser {
             console.log('🛑 Stopping quiz audio:', this.audio.src);
             this.audio.pause();
             this.audio.currentTime = 0;
-            this.audio.volume = 0;
-            this.audio.muted = true;
+            this.audio.volume = 0.7;
+            this.audio.muted = false;
         }
         
         // Stop raffle audio
@@ -1741,8 +1741,8 @@ class NameRandomiser {
             console.log('🛑 Stopping raffle audio:', this.raffleAudio.src);
             this.raffleAudio.pause();
             this.raffleAudio.currentTime = 0;
-            this.raffleAudio.volume = 0;
-            this.raffleAudio.muted = true;
+            this.raffleAudio.volume = 0.7;
+            this.raffleAudio.muted = false;
         }
         
         // Stop any other audio elements on the page
@@ -1760,8 +1760,8 @@ class NameRandomiser {
                 console.log(`🛑 Stopping audio element ${index}:`, audio.src);
                 audio.pause();
                 audio.currentTime = 0;
-                audio.volume = 0;
-                audio.muted = true;
+                audio.volume = 0.7;
+                audio.muted = false;
             }
         });
         
