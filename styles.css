@@ -32,6 +32,9 @@ header {
 .logo-container {
     margin-bottom: 20px;
     animation: fadeInDown 1s ease-out;
+    cursor: pointer; /* Make it clear it's clickable */
+    position: relative; /* Ensure proper positioning */
+    z-index: 10; /* Ensure it's above other elements */
 }
 
 .logo {
@@ -41,6 +44,7 @@ header {
     padding: 15px;
     border-radius: 15px;
     box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+    pointer-events: none; /* Allow clicks to pass through to the container */
 }
 
 header h1 {
@@ -712,7 +716,7 @@ input:checked + .slider:before {
     }
     
     .raffle-mode .winner-name {
-        font-size: 3.5rem;
+        font-size: 5.5rem;
     }
 }
 
