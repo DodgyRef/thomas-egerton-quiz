@@ -1,0 +1,31 @@
+{
+  "rounds": [
+    {
+      "id": 1,
+      "title": "Round 1",
+      "questions": [
+        { "number": 1, "text": "What is the capital of France?" },
+        { "number": 2, "text": "How many sides does a hexagon have?" },
+        { "number": 3, "text": "Which planet is known as the Red Planet?" }
+      ]
+    },
+    {
+      "id": 2,
+      "title": "Round 2",
+      "questions": [
+        { "number": 1, "text": "In which year did the Titanic sink?" },
+        { "number": 2, "text": "What is the largest ocean on Earth?" },
+        { "number": 3, "text": "Who wrote Romeo and Juliet?" }
+      ]
+    },
+    {
+      "id": 3,
+      "title": "Round 3",
+      "questions": [
+        { "number": 1, "text": "What is the chemical symbol for gold?" },
+        { "number": 2, "text": "How many continents are there?" },
+        { "number": 3, "text": "What is the smallest prime number?" }
+      ]
+    }
+  ]
+}
