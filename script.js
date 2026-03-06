@@ -766,10 +766,12 @@ class NameRandomiser {
         }
         
         if (this.wheelSection) this.wheelSection.style.display = 'none';
+        // Hide winner section when switching modes; it only shows after Spin/Draw completes
         if (this.winnerSection) {
-            this.winnerSection.style.display = 'block';
+            this.winnerSection.style.display = 'none';
             this.winnerSection.style.animation = 'none';
         }
+        if (this.resultDisplay) this.resultDisplay.style.display = 'none';
     }
     
     // Raffle functionality
@@ -1317,6 +1319,7 @@ class NameRandomiser {
     updateModeUI() {
         // Update UI for viewers without showing input sections
         this.updateModeButtons();
+        if (this.winnerSection) this.winnerSection.style.display = 'none';
         if (this.currentMode === 'raffle') {
             if (this.mainTitle) this.mainTitle.textContent = 'Raffle Ticket Draw';
             if (this.mainSubtitle) this.mainSubtitle.textContent = 'Enter number ranges and draw a winning ticket!';
