@@ -1077,7 +1077,7 @@ class NameRandomiser {
     
     showInputSections() {
         if (this.modeToggle) this.modeToggle.style.display = 'block';
-        if (this.wheelSection) this.wheelSection.style.display = 'block';
+        if (this.wheelSection) this.wheelSection.style.display = (this.currentMode === 'questions') ? 'none' : 'block';
         
         if (this.currentMode === 'raffle') {
             if (this.quizSection) this.quizSection.style.display = 'none';
@@ -1320,6 +1320,8 @@ class NameRandomiser {
         // Update UI for viewers without showing input sections
         this.updateModeButtons();
         if (this.winnerSection) this.winnerSection.style.display = 'none';
+        if (this.questionsSection) this.questionsSection.style.display = 'none';
+        if (this.wheelSection) this.wheelSection.style.display = (this.currentMode === 'questions') ? 'none' : 'block';
         if (this.currentMode === 'raffle') {
             if (this.mainTitle) this.mainTitle.textContent = 'Raffle Ticket Draw';
             if (this.mainSubtitle) this.mainSubtitle.textContent = 'Enter number ranges and draw a winning ticket!';
