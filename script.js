@@ -1124,7 +1124,7 @@ class NameRandomiser {
             if (window.firebaseDatabase && window.firebaseRef && window.firebaseOnValue && window.firebaseSet) {
                 this.setupFirebaseListeners();
             } else if (Date.now() - configWaitStart > configTimeoutMs) {
-                this.updateSyncStatus('disconnected', '⚠️ No config – add config.js from config.example.js');
+                this.updateSyncStatus('disconnected', '⚠️ No config – add config.js (same folder as index.html)');
             } else {
                 setTimeout(checkFirebase, 100);
             }

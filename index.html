@@ -6,6 +6,11 @@
     <title>The Thomas Egerton - Quiz Name Randomiser</title>
     <link rel="stylesheet" href="styles.css">
     <script src="config.js"></script>
+    <script>
+      if (typeof window.firebaseConfig === 'undefined' || !window.firebaseConfig.apiKey) {
+        console.warn('config.js missing or invalid. Copy config.example.js to config.js in the same folder as index.html and add your Firebase config.');
+      }
+    </script>
     <!-- Firebase SDK -->
     <script type="module">
         import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js';
