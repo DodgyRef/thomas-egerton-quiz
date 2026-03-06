@@ -5,9 +5,5 @@
   "private": true,
   "scripts": {
     "build-questions": "node scripts/docx-to-questions.js"
-  },
-  "dependencies": {
-    "mammoth": "^1.6.0",
-    "cheerio": "^1.0.0-rc.12"
   }
 }
