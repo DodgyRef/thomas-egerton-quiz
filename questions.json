@@ -2,29 +2,226 @@
   "rounds": [
     {
       "id": 1,
-      "title": "Round 1",
+      "title": "ROUND ONE: Current Affairs",
       "questions": [
-        { "number": 1, "text": "What is the capital of France?" },
-        { "number": 2, "text": "How many sides does a hexagon have?" },
-        { "number": 3, "text": "Which planet is known as the Red Planet?" }
+        {
+          "number": 1,
+          "text": "1 WHICH CRAFT BEER FIRM WENT INTO ADMINISTRATION ON MONDAY, MAKING HUNDREDS OF PEOPLE REDUNDANT?"
+        },
+        {
+          "number": 2,
+          "text": "2 WHICH COUNTRY IN THE UK HAS BECOME THE FIRST TO MAKE WATER CREMATIONS LEGAL?"
+        },
+        {
+          "number": 3,
+          "text": "3 NETFLIX MOVIE “THE IMMORTAL MAN” PREMIERED ON MONDAY AT THE SYMPHONY HALL IN BIRMINGHAM.  THIS IS THE BIG SCREEN ADAPTATION OF WHICH TV SERIES?"
+        },
+        {
+          "number": 4,
+          "text": "4 WHAT IS THE NAME OF THE TOURETTES SUFFERER WHO TRIGGERED A BAFTAs STORM?"
+        },
+        {
+          "number": 5,
+          "text": "5 WHICH SPORTS TROPHY HAS BEEN RETIRED FROM CEREMONIAL USE AFTER SUFFERING FIRE DAMAGE WHEN IT WAS INVOLVED IN AN ACCIDENT DURING TRANSIT?"
+        },
+        {
+          "number": 6,
+          "text": "6 WHICH MANUFACTURER IS JOINING FORMULA 1 THIS SEASON, TAKING THE TOTAL TEAMS COMPETING TO 11?"
+        },
+        {
+          "number": 7,
+          "text": "7 WHICH BRITISH HISTORICAL FIGURE DID DONALD TRUMP COMPARE KIER STARMER TO UNFAVOURABLY AFTER HE REFUSED TO PERMIT THE AMERICANS TO USE UK AIR BASES?"
+        },
+        {
+          "number": 8,
+          "text": "8 WHICH PRESENTER ANNOUNCED HE WOULD BE QUITTING THE “HOUSE OF GAMES” SHOW AFTER HOSTING IT FOR NINE YEARS?"
+        },
+        {
+          "number": 9,
+          "text": "9 THE HOME SECRETARY HAS SAID THE UK WILL STOP ISSUING VISAS TO PEOPLE FROM AFGHANISTAN, CAMEROON, MYANMAR AND SUDAN FROM THIS MONTH.  WHAT IS THE HOME SECRETARY’S NAME?"
+        },
+        {
+          "number": 10,
+          "text": "10 THE OBR HAS WARNED THAT THE UK ECONOMY COULD FACE A VERY SIGNIFICANT HIT FROM THE IRAN WAR.  WHAT DOES OBR STAND FOR?"
+        }
       ]
     },
     {
       "id": 2,
-      "title": "Round 2",
+      "title": "ROUND TWO: Trivial Pursuit",
       "questions": [
-        { "number": 1, "text": "In which year did the Titanic sink?" },
-        { "number": 2, "text": "What is the largest ocean on Earth?" },
-        { "number": 3, "text": "Who wrote Romeo and Juliet?" }
+        {
+          "number": 1,
+          "text": "1 Geography: WHAT IS THE NAME OF THE SECOND-TALLEST MOUNTAIN IN THE WORLD?"
+        },
+        {
+          "number": 2,
+          "text": "2 Entertainment: IN WHAT 1976 THRILLER DOES ROBERT DE NIRO FAMOUSLY SAY “YOU TALKIN’ TO ME?”"
+        },
+        {
+          "number": 3,
+          "text": "3 History: BESIDES BEING HUSBAND & WIFE, HOW ELSE WERE VICTORIA & ALBERT RELATED?"
+        },
+        {
+          "number": 4,
+          "text": "4 Art & Literature: WHICH SHAKESPEAREAN PLAY FEATURES THE CHARACTER SHYLOCK?"
+        },
+        {
+          "number": 5,
+          "text": "5 Science & Nature: HERMIT, SPIDER AND BLUE ARE ALL TYPES OF WHICH CREATURE?"
+        },
+        {
+          "number": 6,
+          "text": "6 Sport & Leisure: HOW MANY PRIMARY COLOURS ARE THERE?"
+        }
       ]
     },
     {
       "id": 3,
-      "title": "Round 3",
+      "title": "ROUND THREE – Herd Mentality",
       "questions": [
-        { "number": 1, "text": "What is the chemical symbol for gold?" },
-        { "number": 2, "text": "How many continents are there?" },
-        { "number": 3, "text": "What is the smallest prime number?" }
+        {
+          "number": 1,
+          "text": "1 NAME ANY MANAGER OF MANCHESTER UNITED SINCE 1945."
+        },
+        {
+          "number": 2,
+          "text": "2 NAME ANY HOST CITY OF THE SUMMER OLYMPICS SINCE 1980."
+        },
+        {
+          "number": 3,
+          "text": "3 NAME ANY HOST CITY OF THE WINTER OLYMPICS SINCE 1980."
+        },
+        {
+          "number": 4,
+          "text": "4 NAME ANY WINNER OF THE ACADEMY AWARD FOR BEST PICTURE SINCE 2000."
+        },
+        {
+          "number": 5,
+          "text": "5 NAME ANY MAIN CHARACTER (HAVING 10 OR MORE APPEARANCES IN THE TV SHOW AS LISTED IN IMDB) FROM THE ONLY FOOLS AND HORSES TV SERIES."
+        },
+        {
+          "number": 6,
+          "text": "ROUND THREE – Limitless Wipeout (Each answer is 50 or less)"
+        },
+        {
+          "number": 7,
+          "text": "6 IF PRINCE WILLIAM KEEPS HIS FIRST NAME WHEN BECOMING KING, WHAT WILL HIS REGNAL NUMBER BE?"
+        },
+        {
+          "number": 8,
+          "text": "7 TO THE NEAREST MILE, HOW MANY MILES DOES 80 KILOMETRES EQUATE TO?"
+        },
+        {
+          "number": 9,
+          "text": "8 HOW MANY TIME ZONES DOES RUSSIA HAVE?"
+        },
+        {
+          "number": 10,
+          "text": "9 HOW MANY ACTORS HAVE PORTRAYED THE CHARACTER JACK RYAN IN TV SERIES OR FILMS?"
+        },
+        {
+          "number": 11,
+          "text": "10 WHAT YEAR WAS THE FIRST-GENERATION APPLE IPAD INTRODUCED (LAST TWO DIGITS OF THE YEAR)"
+        },
+        {
+          "number": 12,
+          "text": "ROUND FOUR – WHO AM I?"
+        },
+        {
+          "number": 13,
+          "text": "10 I WAS BORN IN WALES IN 1968.  MY MIDDLE NAME IS DANIEL.  MY PARENTS LIVED IN ENGLAND AT THE TIME OF MY BIRTH, BUT MY FATHER DROVE OVER THE BORDER WHEN MY MOTHER WENT INTO LABOUR TO ENSURE I WAS BORN IN WALES."
+        },
+        {
+          "number": 14,
+          "text": "8 I GREW UP IN THE ENGLISH TOWN OF WEM, WHICH I REGARD AS MY HOME.  I WAS EDUCATED AT THOMAS ADAMS SCHOOL IN WEM, BEFORE STUDYING DRAMA AND ENGLISH BRUNEL UNIVERSITY IN UXBRIDGE, FROM WHERE I GRADUATED IN 1990."
+        },
+        {
+          "number": 15,
+          "text": "6 BEFORE ENTERING COMEDY FULL-TIME IN MY 30s, I SPENT THIRTEEN YEARS WORKING AS A DRAMA TEACHER. I OFTEN JOKE THAT MY CAREER CHANGE WAS FUELLED BY A LACK OF AUTHORITY AND MY GENUINE FEAR OF MY OWN STUDENTS."
+        },
+        {
+          "number": 16,
+          "text": "4 MY MAINSTREAM ACTING BREAKTHROUGH CAME WHEN I WAS CAST AS THE STUDENT-HATING HEAD OF SIXTH FORM, MR GILBERT, IN THE HIT E4 SITCOM THE INBETWEENERS. I ALSO WROTE AND STARRED IN THE SITCOM MAN DOWN, AS WELL AS PLAYING A LAWYER IN THE SITCOM CUCKOO STARRING ALONGSIDE ADAM SAMBERG & TAYLOR LAUTNER."
+        },
+        {
+          "number": 17,
+          "text": "2 I AM MOST FAMOUS FOR MY ROLE AS THE \"ALL-POWERFUL\" JUDGE ON LONG-RUNNING DAVE/CHANNEL 4 SERIES TASKMASTER. SITTING ON MY THRONE ALONGSIDE MY ASSISTANT ALEX HORNE, I JUDGE CELEBRITIES AS THEY PERFORM BIZARRE TASKS TO WIN A TROPHY OF MY OWN GOLDEN HEAD."
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "title": "ROUND SEVEN – WIPEOUT",
+      "questions": [
+        {
+          "number": 1,
+          "text": "1 WHAT IS THE NAME GIVEN TO A MINI HOME ON WHEELS TOWED BEHIND A VEHICLE, TRADITIONALLY USED FOR HOLIDAYING IN DIFFERENT PLACES?"
+        },
+        {
+          "number": 2,
+          "text": "2 WHAT IS THE NAME GIVEN TO A CALENDAR YEAR THAT CONTAINS AN EXTRA DAY?"
+        },
+        {
+          "number": 3,
+          "text": "3 WHAT IS THE NAME OF THE HISTORIC CASTLE ON THE NORTH BANK OF THE RIVER THAMES, FOUNDED TOWARDS THE END OF 1066 AS PART OF THE NORMAN CONQUEST?"
+        },
+        {
+          "number": 4,
+          "text": "4 WHAT IS THE NAME GIVEN TO THE CEREMONIAL EVENT PERFORMED EVERY YEAR ON HORSE GUARDS PARADE IN LONDON, BY REGIMENTS OF THE HOUSEHOLD DIVISION, TO CELEBRATE THE OFFICIAL BIRTHDAY OF THE SOVEREIGN?"
+        }
+      ]
+    },
+    {
+      "id": 5,
+      "title": "ROUND TEN JOKER A – WORLD CURRENCIES",
+      "questions": [
+        {
+          "number": 1,
+          "text": "1 REAL"
+        },
+        {
+          "number": 2,
+          "text": "2 RUPEE"
+        },
+        {
+          "number": 3,
+          "text": "3 KRONE"
+        },
+        {
+          "number": 4,
+          "text": "4 WON"
+        },
+        {
+          "number": 5,
+          "text": "5 BAHT"
+        }
+      ]
+    },
+    {
+      "id": 6,
+      "title": "ROUND TEN JOKER B – SPORTING TERMS",
+      "questions": [
+        {
+          "number": 1,
+          "text": "1 IN WHICH SPORT WOULD YOU THROW STONES AT HOUSES?"
+        },
+        {
+          "number": 2,
+          "text": "2 IN WHICH SPORT WOULD YOU STAND AT SILLY POINT?"
+        },
+        {
+          "number": 3,
+          "text": "3 IN WHICH SPORT WOULD YOU START AT SOUTH STAKE?"
+        },
+        {
+          "number": 4,
+          "text": "4 IN WHICH SPORT WOULD YOU EMPLOY AN O’BRIEN SHIFT?"
+        },
+        {
+          "number": 5,
+          "text": "5 IN WHICH SPORT WOULD YOU SCORE A TURKEY?"
+        }
       ]
     }
   ]

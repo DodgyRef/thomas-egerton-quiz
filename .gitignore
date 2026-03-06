@@ -1,2 +1,5 @@
 # Duplicate/copy of same project
 thomas-egerton-quiz-main/
+
+# Node (for docx-to-questions script)
+node_modules/
