@@ -543,10 +543,12 @@ class NameRandomiser {
     
     renderQuestionsTabsAndContent() {
         if (!this.questionsTabs || !this.questionsContent) return;
+        const revealedIds = Array.isArray(this.revealedRounds) ? this.revealedRounds : [];
         const revealed = (this.questionsData && this.questionsData.rounds)
-            ? this.questionsData.rounds.filter(r => this.revealedRounds.includes(r.id))
+            ? this.questionsData.rounds.filter(r => revealedIds.includes(r.id))
             : [];
         if (revealed.length === 0) {
+            this.selectedQuestionTab = null;
             this.questionsTabs.innerHTML = '';
             this.questionsContent.innerHTML = '<p class="empty-message" id="questionsPlaceholder">Questions will appear here after each round.</p>';
             return;
@@ -1161,10 +1163,8 @@ class NameRandomiser {
             const questionsStateRef = ref(database, 'questionsState');
             onValue(questionsStateRef, (snapshot) => {
                 const data = snapshot.val();
-                if (data && Array.isArray(data.revealedRounds)) {
-                    this.revealedRounds = data.revealedRounds;
-                    if (this.currentMode === 'questions') this.updateQuestionsUI();
-                }
+                this.revealedRounds = (data && Array.isArray(data.revealedRounds)) ? data.revealedRounds : [];
+                if (this.currentMode === 'questions') this.updateQuestionsUI();
             });
             
             this.firebaseConnected = true;
