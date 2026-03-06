@@ -609,20 +609,20 @@ body:not(.view-only-mode) .winner-section:hover {
 }
 
 .current-name {
-    font-size: 24px;
+    font-size: 18px;
     font-weight: 600;
     color: white !important;
     text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
     display: block;
-    min-height: 30px;
-    line-height: 30px;
+    min-height: 22px;
+    line-height: 22px;
 }
 
 /* Larger font for raffle numbers */
 .raffle-mode .current-name {
-    font-size: 120px;
-    min-height: 120px;
-    line-height: 120px;
+    font-size: 72px;
+    min-height: 72px;
+    line-height: 72px;
 }
 
 .wheel.spinning {
@@ -769,13 +769,13 @@ body:not(.view-only-mode) .winner-section:hover {
     }
     
     .current-name {
-        font-size: 20px;
+        font-size: 16px;
     }
     
     .raffle-mode .current-name {
-        font-size: 100px;
-        min-height: 100px;
-        line-height: 100px;
+        font-size: 60px;
+        min-height: 60px;
+        line-height: 60px;
     }
     
     .winner-name {
@@ -820,13 +820,13 @@ body:not(.view-only-mode) .winner-section:hover {
     }
     
     .current-name {
-        font-size: 18px;
+        font-size: 14px;
     }
     
     .raffle-mode .current-name {
-        font-size: 80px;
-        min-height: 80px;
-        line-height: 80px;
+        font-size: 48px;
+        min-height: 48px;
+        line-height: 48px;
     }
     
     .winner-name {
