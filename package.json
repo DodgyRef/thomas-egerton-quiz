@@ -4,6 +4,7 @@
   "description": "Pub quiz app - name randomiser, raffle, questions",
   "private": true,
   "scripts": {
+    "build": "node scripts/build-config.js",
     "build-questions": "node scripts/docx-to-questions.js"
   }
 }
