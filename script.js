@@ -1118,10 +1118,13 @@ class NameRandomiser {
     
     // Firebase integration
     initializeFirebase() {
-        // Wait for Firebase to be available
+        const configWaitStart = Date.now();
+        const configTimeoutMs = 8000;
         const checkFirebase = () => {
             if (window.firebaseDatabase && window.firebaseRef && window.firebaseOnValue && window.firebaseSet) {
                 this.setupFirebaseListeners();
+            } else if (Date.now() - configWaitStart > configTimeoutMs) {
+                this.updateSyncStatus('disconnected', '⚠️ No config – add config.js from config.example.js');
             } else {
                 setTimeout(checkFirebase, 100);
             }
@@ -1139,36 +1142,63 @@ class NameRandomiser {
             // Clear any existing spinning state on page load
             this.clearSpinningState();
             
+            let connectionReported = false;
+            const markConnected = () => {
+                if (connectionReported) return;
+                connectionReported = true;
+                if (this._connectionTimeoutId) clearTimeout(this._connectionTimeoutId);
+                this.firebaseConnected = true;
+                this.updateSyncStatus('connected', '🟢 Connected');
+            };
+
+            // If we never get any data within 15s, show connection failed (e.g. API key restriction)
+            this._connectionTimeoutId = setTimeout(() => {
+                if (!connectionReported) {
+                    connectionReported = true;
+                    this.updateSyncStatus('disconnected', '🔴 Connection failed – check API key & restrictions');
+                    console.warn('Firebase: no data received. In Google Cloud Console, ensure your API key allows your site (e.g. localhost, file://, or your domain).');
+                }
+            }, 15000);
+
+            const onError = (err) => {
+                console.warn('Firebase error:', err);
+                if (!connectionReported) {
+                    connectionReported = true;
+                    if (this._connectionTimeoutId) clearTimeout(this._connectionTimeoutId);
+                    this.updateSyncStatus('disconnected', '🔴 Disconnected');
+                }
+            };
+
             // Listen for game state changes
             const gameStateRef = ref(database, 'gameState');
             onValue(gameStateRef, (snapshot) => {
+                markConnected();
                 const data = snapshot.val();
                 console.log('Firebase listener triggered:', data);
                 if (data) {
                     this.syncData = data;
                     this.handleSyncUpdate(data);
                 }
-            });
+            }, onError);
             
             // Listen for controller status
             const controllerRef = ref(database, 'controller');
             onValue(controllerRef, (snapshot) => {
+                markConnected();
                 const controllerData = snapshot.val();
                 if (controllerData) {
                     this.updateControllerStatus(controllerData);
                 }
-            });
+            }, onError);
             
             // Listen for questions state (revealed rounds)
             const questionsStateRef = ref(database, 'questionsState');
             onValue(questionsStateRef, (snapshot) => {
+                markConnected();
                 const data = snapshot.val();
                 this.revealedRounds = (data && Array.isArray(data.revealedRounds)) ? data.revealedRounds : [];
                 if (this.currentMode === 'questions') this.updateQuestionsUI();
-            });
-            
-            this.firebaseConnected = true;
-            this.updateSyncStatus('connected', '🟢 Connected');
+            }, onError);
             
         } catch (error) {
             console.log('Firebase connection failed:', error);
