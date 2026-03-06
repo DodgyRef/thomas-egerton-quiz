@@ -11,7 +11,7 @@ class NameRandomiser {
         this.audio = null;
         this.currentMode = 'quiz'; // 'quiz', 'questions', or 'raffle'
         this.isAdminLoggedIn = false;
-        this.adminPassword = 'REPLACED_ADMIN_PASSWORD'; // Change this to your desired password
+        this.adminPassword = (typeof window !== 'undefined' && window.ADMIN_PASSWORD) ? window.ADMIN_PASSWORD : 'CHANGE_ME';
         this.isController = false; // True if this device controls the game
         this.firebaseConnected = false;
         this.syncData = null;

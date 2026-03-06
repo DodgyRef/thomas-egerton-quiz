@@ -24,11 +24,13 @@
 5. Click "Register app"
 6. Copy the `firebaseConfig` object
 
-### Step 4: Update Your Code
-Replace the placeholder config in `index.html` (lines 15-23) with your real config:
+### Step 4: Add your config (secrets stay off git)
+1. Copy `config.example.js` to `config.js` (in the project root).
+2. In `config.js`, set `window.firebaseConfig` with your Firebase project values and `window.ADMIN_PASSWORD` with your admin password.
+3. `config.js` is gitignored so it is never committed.
 
 ```javascript
-const firebaseConfig = {
+window.firebaseConfig = {
     apiKey: "your-actual-api-key",
     authDomain: "your-project.firebaseapp.com",
     databaseURL: "https://your-project-default-rtdb.firebaseio.com",
@@ -37,6 +39,7 @@ const firebaseConfig = {
     messagingSenderId: "123456789",
     appId: "your-actual-app-id"
 };
+window.ADMIN_PASSWORD = "your-admin-password";
 ```
 
 ### Step 5: Set Database Rules
@@ -57,7 +60,7 @@ const firebaseConfig = {
 ## 🚀 How It Works
 
 ### Controller Device (Your Phone)
-- Login with password: `REPLACED_ADMIN_PASSWORD`
+- Login with the password you set in `config.js` (`window.ADMIN_PASSWORD`)
 - Becomes the "controller"
 - Can click spin buttons
 - Controls the game for everyone

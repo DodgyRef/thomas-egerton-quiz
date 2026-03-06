@@ -5,34 +5,23 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>The Thomas Egerton - Quiz Name Randomiser</title>
     <link rel="stylesheet" href="styles.css">
-    
+    <script src="config.js"></script>
     <!-- Firebase SDK -->
     <script type="module">
         import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js';
         import { getDatabase, ref, onValue, set, push } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js';
-        // Firebase configuration - Replace with your config
-        const firebaseConfig = {            
-            apiKey: "REPLACED_FIREBASE_API_KEY",
-            authDomain: "thomas-egerton-quiz.firebaseapp.com",
-            databaseURL: "https://thomas-egerton-quiz-default-rtdb.europe-west1.firebasedatabase.app",
-            projectId: "thomas-egerton-quiz",
-            storageBucket: "thomas-egerton-quiz.firebasestorage.app",
-            messagingSenderId: "380312562959",
-            appId: "1:380312562959:web:a0861f4191e5730817e27a",
-            measurementId: "G-QEPV0VEVEF"
-        };
-
-        
-        // Initialize Firebase
-        const app = initializeApp(firebaseConfig);
-        const database = getDatabase(app);
-        
-        // Make Firebase available globally
-        window.firebaseDatabase = database;
-        window.firebaseRef = ref;
-        window.firebaseOnValue = onValue;
-        window.firebaseSet = set;
-        window.firebasePush = push;
+        const firebaseConfig = window.firebaseConfig;
+        if (firebaseConfig && firebaseConfig.apiKey) {
+            const app = initializeApp(firebaseConfig);
+            const database = getDatabase(app);
+            window.firebaseDatabase = database;
+            window.firebaseRef = ref;
+            window.firebaseOnValue = onValue;
+            window.firebaseSet = set;
+            window.firebasePush = push;
+        } else {
+            console.warn('Create config.js from config.example.js and add your Firebase config.');
+        }
     </script>
 </head>
 <body>

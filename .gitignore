@@ -3,3 +3,6 @@ thomas-egerton-quiz-main/
 
 # Node (for docx-to-questions script)
 node_modules/
+
+# Secrets (copy config.example.js to config.js and fill in your values)
+config.js
